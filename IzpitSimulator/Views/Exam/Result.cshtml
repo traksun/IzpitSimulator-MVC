@@ -1,0 +1,35 @@
+@model ResultViewModel
+@{ ViewData["Title"] = "Резултат"; }
+
+<div class="card res">
+    <p class="mu">Вашият резултат</p>
+    <p class="score">@Model.Score / @Model.Total</p>
+    <span class="verdict @(Model.Passed ? "p" : "f")">@(Model.Passed ? "✔ Издържан тест" : "✘ Неиздържан тест")</span>
+    <p class="mu">Необходими са поне @Model.PassScore верни отговора. Грешки: @(Model.Total - Model.Score).</p>
+    <a class="btn" asp-action="Sheet">Нова листовка</a>
+</div>
+
+<div class="card">
+    <h2>Преглед на отговорите</h2>
+    @foreach (var r in Model.Items)
+    {
+        <div class="review">
+            <h3>@r.Number. @r.Question.Text <span class="tag">@r.Question.Category</span></h3>
+            @if (r.Question.Sign is not null)
+            {
+                <partial name="_Sign" model="r.Question.Sign" />
+            }
+            @for (int i = 0; i < r.Question.Options.Length; i++)
+            {
+                var cls = i == r.Question.CorrectIndex ? "ok" : (r.Selected == i ? "bad" : "");
+                <div class="opt @cls">
+                    @((char)('А' + i)). @r.Question.Options[i]
+                    @if (i == r.Question.CorrectIndex) { <text>✔</text> }
+                    @if (r.Selected == i && i != r.Question.CorrectIndex) { <text>✘ (вашият отговор)</text> }
+                </div>
+            }
+            @if (r.Selected is null) { <div class="mu">Не е отговорен.</div> }
+            <div class="note">@(r.IsCorrect ? "Вярно. " : "Грешно. ")@r.Question.Explanation</div>
+        </div>
+    }
+</div>

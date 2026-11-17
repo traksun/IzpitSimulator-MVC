@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] – Шофьорски изпит</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <main>
+        <h1><a href="@Url.Action("Index", "Exam")">🚗 Листовка за шофьорски изпит</a></h1>
+        <p class="mu">Симулация на теоретичния изпит за категория B · <a href="@Url.Action("History", "Exam")">История на опитите</a></p>
+        @RenderBody()
+    </main>
+    <script src="~/js/site.js"></script>
+</body>
+</html>

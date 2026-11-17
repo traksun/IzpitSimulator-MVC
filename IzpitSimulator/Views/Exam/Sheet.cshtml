@@ -1,0 +1,34 @@
+@model SheetViewModel
+@{ ViewData["Title"] = "Листовка"; }
+
+<form asp-action="Result" method="post" id="sheet" data-total="@Model.Items.Count">
+    @foreach (var item in Model.Items)
+    {
+        var letter = 'А';
+        <section class="card">
+            <input type="hidden" name="ids" value="@item.Question.Id" />
+            <div class="qhead">
+                <span class="tag">@item.Question.Category</span>
+                <span class="mu">Въпрос @item.Number от @Model.Items.Count</span>
+            </div>
+            <h2>@item.Question.Text</h2>
+            @if (item.Question.Sign is not null)
+            {
+                <partial name="_Sign" model="item.Question.Sign" />
+            }
+            @foreach (var idx in item.OptionOrder)
+            {
+                <label class="opt">
+                    <input type="radio" name="answers[@(item.Question.Id)]" value="@idx" />
+                    <span>@(letter++). @item.Question.Options[idx]</span>
+                </label>
+            }
+        </section>
+    }
+
+    <div class="bar-fixed">
+        <span id="progress">Отговорени: 0/@Model.Items.Count</span>
+        <button class="btn" type="submit">Приключи теста</button>
+    </div>
+    <p class="mu small">Листовката е генерирана за @Model.GenerationMs.ToString("0.00") ms</p>
+</form>

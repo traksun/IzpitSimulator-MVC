@@ -1,0 +1,19 @@
+@model IndexViewModel
+@{ ViewData["Title"] = "Начало"; }
+
+<div class="card">
+    <h2>Правила на изпита</h2>
+    <ul>
+        <li>Листовката съдържа <b>@Model.QuestionsPerSheet въпроса</b>, избрани на случаен принцип от различните категории.</li>
+        <li>Всеки въпрос има само един верен отговор и носи 1 точка.</li>
+        <li>За да издържите, са нужни поне <b>@Model.PassScore от @Model.QuestionsPerSheet</b> верни отговора.</li>
+    </ul>
+    <div class="tags">
+        @foreach (var c in Model.Categories)
+        {
+            <span class="tag">@c</span>
+        }
+    </div>
+    <p class="mu">В базата има @Model.BankSize въпроса в @Model.Categories.Count категории.</p>
+    <a class="btn" asp-action="Sheet">Започни нова листовка</a>
+</div>
